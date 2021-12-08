@@ -23,17 +23,20 @@ const Text = styled.span<textType>`
     if (props.category === Categories.DOING) {
       return 'royalblue';
     }
+    if (props.category === Categories.DONE) {
+      return 'gray';
+    }
   }};
 `;
 const Button = styled.button`
   cursor: pointer;
   margin-right: 4px;
   padding: 2px 4px;
-  border: 1px solid #fff3bf;
-  background-color: #fff9db;
   border-radius: 2px;
+  border: 1px solid ${(props) => props.theme.btnColor};
+  background-color: ${(props) => props.theme.btnBorderColor};
   &:hover {
-    background-color: #ffec99;
+    background-color: ${(props) => props.theme.btnHoverColor};
   }
 `;
 

@@ -15,6 +15,7 @@ const Select = styled.select`
   background-color: transparent;
   margin-bottom: 10px;
   border-radius: 2px;
+  color: ${(props) => props.theme.textColor};
 `;
 const List = styled.div`
   width: 550px;

@@ -1,6 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
 import styled, { ThemeProvider } from 'styled-components';
 import ToDoList from './components/ToDoList';
+import { darkTheme, lightTheme } from './theme';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { isDarkAtom } from './atoms';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
@@ -38,9 +41,8 @@ body {
   justify-content: center;
   line-height: 1.2;
   font-weight: 300;
-  /* color: ${(props) => props.theme.textColor}; */
-  /* background-color: ${(props) => props.theme.bgColor}; */
-  background-color: whitesmoke;
+  color: ${(props) => props.theme.textColor};
+  background-color: ${(props) => props.theme.bgColor};
 }
 ol, ul {
 	list-style: none;
@@ -65,12 +67,27 @@ a {
   text-decoration: none;
 }
 `;
+const Toggle = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  border: 0;
+  cursor: pointer;
+  background-color: transparent;
+`;
 
 function App() {
+  const isDark = useRecoilValue(isDarkAtom);
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   return (
     <>
-      <GlobalStyle />
-      <ToDoList />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <Toggle onClick={toggleDarkAtom}>{isDark ? '🌞' : '🌝'}</Toggle>
+        <GlobalStyle />
+        <ToDoList />
+      </ThemeProvider>
     </>
   );
 }

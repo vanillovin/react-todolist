@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { categoryState, toDoState } from '../atoms';
+import { categoryState, isDarkAtom, toDoState } from '../atoms';
 
 const Form = styled.form`
   height: 35px;
@@ -9,7 +9,7 @@ const Form = styled.form`
   align-items: center;
   margin: 20px 0;
 `;
-const Input = styled.input`
+const Input = styled.input<{ isDark: boolean }>`
   width: 200px;
   height: 100%;
   border: none;
@@ -18,6 +18,9 @@ const Input = styled.input`
   font-size: 20px;
   outline: none;
   padding: 0 10px;
+  ::placeholder {
+    color: ${(props) => props.theme.textColor};
+  }
 `;
 const Button = styled.button`
   width: 50px;
@@ -33,6 +36,7 @@ interface IForm {
 }
 
 function CreateToDo() {
+  const isDark = useRecoilValue(isDarkAtom);
   const oldToDos = useRecoilValue(toDoState);
   const setToDos = useSetRecoilState(toDoState);
   // 값만 얻고 싶다면 useRecoilValue
@@ -54,6 +58,7 @@ function CreateToDo() {
   return (
     <Form onSubmit={handleSubmit(handleValid)}>
       <Input
+        isDark={isDark}
         {...register('toDo', {
           required: 'Please wrtie a To Do',
         })}
